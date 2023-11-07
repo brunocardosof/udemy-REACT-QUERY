@@ -82,7 +82,7 @@ export function useAppointments(): UseAppointments {
     // prefetch appointments for the previous monthYear
     const nextMonthYear = getNewMonthYear(monthYear, 1);
     queryClient.prefetchQuery(
-      [queryKeys.appointments, `${nextMonthYear.year}-${nextMonthYear.month}`],
+      [queryKeys.appointments, nextMonthYear.year, nextMonthYear.month],
       () => getAppointments(nextMonthYear.year, nextMonthYear.month),
       commonOptions,
     );
@@ -104,7 +104,7 @@ export function useAppointments(): UseAppointments {
   //       monthYear.month
   const fallback = {};
   const { data: appointments = fallback } = useQuery(
-    [queryKeys.appointments, `${monthYear.year}-${monthYear.month}`],
+    [queryKeys.appointments, monthYear.year, monthYear.month],
     () => getAppointments(monthYear.year, monthYear.month),
     {
       select: showAll ? undefined : selectFn,
